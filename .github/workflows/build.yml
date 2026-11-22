@@ -1,0 +1,81 @@
+name: build
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  windows:
+    name: Windows
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt pyinstaller
+      - name: Build sender
+        run: >
+          pyinstaller --noconfirm --clean --onefile --windowed
+          --name ScreenBroadcastSender --icon assets/sender.ico
+          --add-data "assets;assets" app_sender.py
+      - name: Build receiver
+        run: >
+          pyinstaller --noconfirm --clean --onefile --windowed
+          --name ScreenBroadcastReceiver --icon assets/receiver.ico
+          --add-data "assets;assets" app_receiver.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-binaries
+          path: |
+            dist/ScreenBroadcastSender.exe
+            dist/ScreenBroadcastReceiver.exe
+
+  macos:
+    name: macOS
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt pyinstaller
+      - name: Build sender
+        run: >
+          pyinstaller --noconfirm --clean --windowed
+          --name ScreenBroadcastSender --icon assets/sender.icns
+          --add-data "assets:assets" app_sender.py
+      - name: Build receiver
+        run: >
+          pyinstaller --noconfirm --clean --windowed
+          --name ScreenBroadcastReceiver --icon assets/receiver.icns
+          --add-data "assets:assets" app_receiver.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: macos-apps
+          path: |
+            dist/ScreenBroadcastSender.app
+            dist/ScreenBroadcastReceiver.app
+
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+      - name: Run unit tests
+        run: python -m unittest discover -s tests -v

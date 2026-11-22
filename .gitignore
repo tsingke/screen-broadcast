@@ -1,0 +1,8 @@
+__pycache__/
+*.py[cod]
+*.spec
+dist/
+build/*.app
+.DS_Store
+screen_broadcast_settings.json
+*.log

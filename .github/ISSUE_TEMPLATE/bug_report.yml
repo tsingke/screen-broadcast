@@ -1,0 +1,44 @@
+name: Bug report
+description: 报告一个问题
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢反馈。请尽量填写以下信息，便于定位问题。
+  - type: input
+    id: version
+    attributes:
+      label: 版本 / 系统
+      description: 例如 v1.0.0，Windows 11 或 macOS 14 (Apple Silicon)
+      placeholder: v1.0.0 / Windows 11
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: 问题描述
+      description: 发生了什么？期望的结果是什么？
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: 复现步骤
+      placeholder: |
+        1. 教师端开始广播
+        2. 学生端打开接收端
+        3. ...
+  - type: textarea
+    id: logs
+    attributes:
+      label: 日志或截图
+      description: 如果是源码运行，可贴出终端报错信息
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: 已确认
+      options:
+        - label: 两端在同一 VLAN / 子网
+        - label: 已放行 UDP 22222（教师端 22223）
+        - label: macOS 发送端已授予屏幕录制权限
