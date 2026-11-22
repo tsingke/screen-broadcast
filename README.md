@@ -5,6 +5,8 @@
 
 采用 UDP **组播 + 64×64 瓦片增量传输**，适合百兆网络、100 台以上的机房环境。
 
+**项目主页**：<https://tsingke.github.io/screen-broadcast/>
+
 [![build](https://github.com/tsingke/screen-broadcast/actions/workflows/build.yml/badge.svg)](https://github.com/tsingke/screen-broadcast/actions/workflows/build.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 ![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS-2F6BFF)
