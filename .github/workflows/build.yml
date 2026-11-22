@@ -2,13 +2,15 @@ name: build
 
 on:
   push:
-    tags:
-      - 'v*'
+    branches: [ main ]
+    tags: [ 'v*' ]
+  pull_request:
   workflow_dispatch:
 
 jobs:
   windows:
     name: Windows
+    if: github.event_name != 'pull_request'
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
@@ -38,7 +40,8 @@ jobs:
 
   macos:
     name: macOS
-    runs-on: macos-14
+    if: github.event_name != 'pull_request'
+    runs-on: macos-13
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
